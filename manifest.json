@@ -1,0 +1,36 @@
+{
+  "name": "URL Family Check",
+  "short_name": "url-family-check",
+  "slug": "url-family-check",
+  "description": "The address you share can show a login while another address for the same project still answers. A dated note of what Vercel, Netlify, and Cloudflare Pages document, and a command that asks each address once without logging in or following redirects.",
+  "url": "https://greattombproductions.github.io/url-family-check/",
+  "repo": "https://github.com/GreatTombProductions/url-family-check",
+  "github": "https://github.com/GreatTombProductions/url-family-check",
+  "data_source": "Vercel Deployment Protection and Vercel Authentication docs (page date 15 September 2026), Netlify Password Protection overview, and Cloudflare Pages preview-deployment docs, fetched 14 November 2026. No project of anyone else's was requested.",
+  "data_url": "https://greattombproductions.github.io/url-family-check/",
+  "records": "0 stored records. The page is a dated reading. The command keeps nothing.",
+  "detail": "Static page plus a standard-library Python command. You paste addresses from your own deploy list. Each is requested once with no cookie and no password. Redirects are recorded and not followed, because on Vercel the login is that redirect. 401 is challenged, 403 is refused, 200-class is served (body not read), and a failed request stays a failure. The page quotes which address classes each host's setting claims to cover, including Vercel's legacy pre-production scope that leaves production addresses open and Cloudflare's preview policy that does not cover the pages.dev production name or a custom domain.",
+  "asymmetry": "A host's protection control reads as if it covers the project. It covers a class of addresses, and the class is easy to miss: you test the address you share, see a login, and stop. Older deployment addresses, preview links, or the host's own project name can still answer. The host's docs name several of those classes. They do not show you what your addresses do today.",
+  "pipeline_note": "No pipeline. check.py and tests/test_check.py are the command and its local-only tests. The scope sentences are a 14 November 2026 reading of three public doc pages, not a monitor.",
+  "search_modes": [
+    "is my preview url public",
+    "deployment protection missed an old url",
+    "password set but deploy link still open"
+  ],
+  "search_terms": [
+    "Vercel deployment protection scope",
+    "Netlify password does not cover production",
+    "Cloudflare Pages preview access",
+    "login on the custom domain only",
+    "old deployment URL still public"
+  ],
+  "released_date": "2026-11-14",
+  "status": "released",
+  "deploy_branch": "gh-pages",
+  "deploy_method": "static",
+  "feedback_categories": [
+    "methodology",
+    "bug",
+    "feature"
+  ]
+}

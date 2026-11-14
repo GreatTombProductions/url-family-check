@@ -1,0 +1,48 @@
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 1.05rem/1.5 "Iowan Old Style", Palatino, Georgia, serif;
+  background: #f6f4ef;
+  color: #1c1915;
+}
+.wrap { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem; }
+.skip {
+  position: absolute; left: -999px;
+}
+.skip:focus { left: 1rem; top: 1rem; background: #fff; padding: 0.4rem; }
+.masthead { background: #1c1915; color: #f6f4ef; padding: 2.5rem 0 2rem; }
+.eyebrow { letter-spacing: 0.04em; text-transform: uppercase; font: 0.78rem/1.4 system-ui, sans-serif; margin: 0 0 0.6rem; }
+h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 0.8rem; }
+.lede { font-size: 1.15rem; }
+.privacy, .lede { margin: 0.6rem 0; }
+a { color: #0b4f6c; }
+.masthead a { color: #f3d27a; }
+.host { font-family: ui-monospace, monospace; }
+main { padding: 1.5rem 0 2rem; }
+.card {
+  background: #fff;
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  margin: 0 0 1rem;
+}
+h2 { font-size: 1.35rem; margin: 0 0 0.6rem; }
+h3 { font-size: 1.1rem; margin: 1.1rem 0 0.3rem; }
+pre {
+  background: #1c1915;
+  color: #f6f4ef;
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  border-radius: 6px;
+  font: 0.85rem/1.4 ui-monospace, monospace;
+}
+code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+table { width: 100%; border-collapse: collapse; font: 0.95rem/1.4 system-ui, sans-serif; }
+th, td { text-align: left; vertical-align: top; border-top: 1px solid #e2ddd4; padding: 0.45rem 0.4rem; }
+th { font-size: 0.8rem; letter-spacing: 0.03em; text-transform: uppercase; }
+footer { padding: 0 0 2.5rem; font: 0.9rem/1.4 system-ui, sans-serif; color: #4a453e; }
+@media (max-width: 420px) {
+  h1 { font-size: 1.7rem; }
+  .card { padding: 0.9rem; }
+}

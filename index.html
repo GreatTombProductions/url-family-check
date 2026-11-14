@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>URL Family Check — Does the login cover every address that serves this project?</title>
+<meta name="description" content="A setting can protect the address you test and leave another address for the same project open. This page quotes what three hosts document, and gives you a command that asks each address once without logging in or following redirects.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#command">Skip to the command</a>
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">For someone about to put real data on a project that "has a login"</p>
+    <h1>URL Family Check</h1>
+    <p class="lede">You open the address you share with people. A login appears. That does not say what the project's other addresses do. Preview links, old deployment addresses, and the host's own <span class="host">pages.dev</span> name can be a different door.</p>
+    <p class="privacy">This page does not contact your project and does not store anything. The command below runs on your computer. It does not log in, and it does not follow a redirect.</p>
+  </div>
+</header>
+<main class="wrap">
+  <section class="card" id="command">
+    <h2>Ask each address yourself</h2>
+    <p>Copy every address your host lists for the project — the custom domain, the host's own project name, preview links, and older deployment links — not only the one you already tested. Then:</p>
+    <pre><code>python3 check.py https://app.example.com https://older-deployment.example</code></pre>
+    <p>Or one address per line in a text file: <code>python3 check.py --file addresses.txt</code></p>
+    <p>You get one line per address:</p>
+    <table>
+      <thead><tr><th>verdict</th><th>what came back</th></tr></thead>
+      <tbody>
+        <tr><td>redirect</td><td>3xx, and the Location it named. Not followed. On Vercel, the login is this redirect, so a redirect is not an open page and not proof you saw a login.</td></tr>
+        <tr><td>challenged</td><td>401. Something asked for credentials.</td></tr>
+        <tr><td>refused</td><td>403. Refused, without serving a page.</td></tr>
+        <tr><td>served</td><td>200–299. This address returned a page. The body is not read, so this is not a judgment of what the page says.</td></tr>
+        <tr><td>other</td><td>Any other HTTP status, a bad address, or the request failed. A failure is not "protected".</td></tr>
+      </tbody>
+    </table>
+    <p>The command sends no cookie and no password. An address that contains a username or password is refused. At most 40 addresses.</p>
+  </section>
+
+  <section class="card">
+    <h2>What to paste, from each host's own docs</h2>
+    <p>Read on 14 November 2026. These are the hosts' sentences about which addresses a setting covers. They are not a measurement of your project. Settings change; if you are reading this later, open the linked page before you trust a row.</p>
+
+    <h3>Vercel</h3>
+    <p>Source: <a href="https://vercel.com/docs/deployment-protection">Deployment Protection</a>, page date 15 September 2026, and <a href="https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication">Vercel Authentication</a>, both fetched 14 November 2026.</p>
+    <ul>
+      <li><strong>Standard Protection</strong> — "Protects all deployments except production domains." Turning it on restricts the production generated deployment URL. The API name on the authentication page is <code>all_except_custom_domains</code>.</li>
+      <li><strong>All Deployments</strong> — "all URLs are protected, including your production domain <code>example.com</code> and generated URLs like <code>my-project-1234.vercel.app</code>." API name <code>all</code>.</li>
+      <li><strong>(Legacy) Standard Protection</strong> — protects preview URLs and deployment URLs. "All up-to-date production URLs remain unprotected." API name <code>prod_deployment_urls_and_all_previews</code>.</li>
+      <li><strong>(Legacy) Pre-Production Deployments</strong> — "Protects only preview URLs. Does not protect past production deployments." The same page says past or current generated production branch URLs like <code>*-main.vercel.app</code> remain accessible. API name <code>preview</code>.</li>
+    </ul>
+    <p>The authentication page says visitors "encounter a Vercel login redirect," and that authentication "protects all your existing and future deployments in the environments you selected." So "we turned it on after that deploy" is not, on that page, an exception. The exception that page does name is the legacy scope above: production URLs, including older <code>*-main.vercel.app</code> addresses, stay open.</p>
+
+    <h3>Netlify</h3>
+    <p>Source: <a href="https://docs.netlify.com/manage/security/secure-access-to-sites/password-protection/">Password Protection overview</a>, fetched 14 November 2026.</p>
+    <ul>
+      <li>You choose "all site deploys" or "only Deploy Previews and branch deploys."</li>
+      <li><strong>Protect all deploys</strong> includes production deploys, Deploy Previews, and branch deploys.</li>
+      <li><strong>Protect only non-production deploys</strong> keeps production open and protects Deploy Previews and branch deploys. The page says this non-production-only option is for Enterprise plans in the older settings.</li>
+      <li>On credit-based plans the same choice is worded "Production and previews" or "Previews only."</li>
+    </ul>
+    <p>That page talks about production deploys, Deploy Previews, and branch deploys. It does not, in the text read that day, name a further class of per-deploy link. Paste every address the deploys list shows anyway. The command is how you see what each one does.</p>
+
+    <h3>Cloudflare Pages</h3>
+    <p>Source: <a href="https://developers.cloudflare.com/pages/configuration/preview-deployments/">Preview deployments</a>, fetched 14 November 2026.</p>
+    <ul>
+      <li>"By default, these deployment URLs are public."</li>
+      <li>Enabling the preview access policy "will only protect your preview deployments (for example, <code>373f31e2.user-example.pages.dev</code> and every other randomly generated preview link) and not your <code>*.pages.dev</code> domain or custom domain."</li>
+      <li>Access for the <code>*.pages.dev</code> domain and the custom domain, together with previews, is a separate setup. The page points at its known-issues section for that.</li>
+    </ul>
+    <p>The addresses in that example are the documentation's, not a site this tool measured.</p>
+  </section>
+
+  <section class="card">
+    <h2>What this does not do</h2>
+    <ul>
+      <li>It does not list your project's addresses for you. The host's dashboard already lists deploys; this asks the ones you paste.</li>
+      <li>It does not log in, follow redirects, or decide that a 200 page is a login form. A form that returns 200 is <strong>served</strong>.</li>
+      <li>It is not a monitor. Run it when you change the setting or ship a deploy. Nothing here runs after that.</li>
+      <li>It does not scan addresses you did not type. Point it only at a project you operate.</li>
+    </ul>
+  </section>
+</main>
+<footer class="wrap">
+  <p>Scope sentences read 14 November 2026 from the three pages linked above. The command's rules are the same in <code>check.py</code>.</p>
+</footer>
+</body>
+</html>
