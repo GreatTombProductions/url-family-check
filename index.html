@@ -27,7 +27,7 @@
     <table>
       <thead><tr><th>verdict</th><th>what came back</th></tr></thead>
       <tbody>
-        <tr><td>redirect</td><td>3xx, and the Location it named. Not followed. On Vercel, the login is this redirect, so a redirect is not an open page and not proof you saw a login.</td></tr>
+        <tr><td>redirect</td><td>301, 302, 303, 307, or 308 only, and the Location it named. Not followed. 304 is not a redirect. On Vercel, the login is this redirect, so a redirect is not an open page and not proof you saw a login.</td></tr>
         <tr><td>challenged</td><td>401. Something asked for credentials.</td></tr>
         <tr><td>refused</td><td>403. Refused, without serving a page.</td></tr>
         <tr><td>served</td><td>200–299. This address returned a page. The body is not read, so this is not a judgment of what the page says.</td></tr>
